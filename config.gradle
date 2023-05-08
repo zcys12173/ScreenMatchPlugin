@@ -1,0 +1,4 @@
+ext{
+    agpVersion = "4.2.1"
+    kotlinVersion = "1.5.10"
+}

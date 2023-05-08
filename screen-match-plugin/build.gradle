@@ -1,0 +1,8 @@
+apply plugin: 'org.jetbrains.kotlin.jvm'
+
+dependencies {
+    implementation "com.android.tools.build:gradle:4.2.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    implementation 'org.ow2.asm:asm-commons:9.2'
+    implementation gradleApi()
+}

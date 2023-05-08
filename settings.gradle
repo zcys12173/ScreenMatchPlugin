@@ -1,0 +1,3 @@
+rootProject.name = "ScreenMatchPlugin"
+include ':app'
+include ':screen-match-plugin'

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ <dimen name="dp_108">108.0</dimen>
+
+ <dimen name="dp_3_1">3.1dp</dimen> 
+
+ <dimen name="sp_0_1">0.1sp</dimen> 
+
+ <dimen name="sp_3">3.0sp</dimen> 
+</resources>
