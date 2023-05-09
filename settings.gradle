@@ -1,4 +1,4 @@
 rootProject.name = "ScreenMatchPlugin"
 include ':app'
-//include ':screen-match-plugin'
+include ':screen-match-plugin'
 include ':other-module'

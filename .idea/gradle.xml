@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/other-module" />
+            <option value="$PROJECT_DIR$/screen-match-plugin" />
           </set>
         </option>
       </GradleProjectSettings>

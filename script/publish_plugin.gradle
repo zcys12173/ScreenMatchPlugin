@@ -1,0 +1,24 @@
+apply plugin:'java-gradle-plugin'
+apply plugin:'maven-publish'
+apply plugin:'com.gradle.plugin-publish'
+
+pluginBundle {
+    website = 'https://github.com/zcys12173/ScreenMatchPlugin'
+    vcsUrl = 'https://github.com/zcys12173/ScreenMatchPlugin.git'
+    tags = ['screen', 'match']
+}
+
+version = '1.0.0-beta'
+group = 'io.github.zcys12173.plugins'
+
+
+gradlePlugin {
+    plugins {
+        routerPlugin {
+            id = 'io.github.zcys12173.ScreenMatch'
+            implementationClass = 'com.syc.plugin.ScreenMatchPlugin'
+            displayName = 'Gradle plugin for auto match more size screen'
+            description = 'Gradle plugin for auto match more size screen'
+        }
+    }
+}
