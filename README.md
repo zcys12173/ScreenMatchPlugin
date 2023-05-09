@@ -1,11 +1,18 @@
-# ScreenMatchPlugin
-用于Android屏幕适配的Gradle插件，在coding写xml的时候只需要直接写入dp值，无需手动在dimens.xml定义。该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，然后再基于Andorid最小宽度适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
+# Android屏幕适配Gradle插件  
+
+用于Android屏幕适配的Gradle插件  
+
+在coding写xml的时候只需要直接写入dp/sp(目前仅支持这两种)值，无需手动在dimens.xml定义，提升编码效率  
+
+该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，然后再基于Andorid最小宽度适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
 
 ## 引用
 审核中...
 
 ## 配置
-建议在整个工程的最底层依赖的module引入插件生成适配dimens.xml文件，这样方便其他的module引用。（下面代码示例都用“other-module”模块）
+建议在整个工程的最底层依赖的module引入插件生成适配dimens.xml文件，这样方便其他的module引用  
+
+下面代码示例都用“other-module”模块
 
 other-module.gradle
 ```gradle
@@ -50,8 +57,6 @@ createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXX
 
 ## 自动集成-CI  
 
-目前没有把该功能集成到插件中，可自行添加到构建的某个任务中。如下面代码是添加到preBuild构建任务之前即可实现每次打包自动生成适配文件。
-
 在根目录下的build.gradle中添加  
 
 ```gradle
@@ -67,3 +72,5 @@ createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXX
         }
     }
 ```
+
+后续会考虑直接把该逻辑放到插件中，增加开关配置
