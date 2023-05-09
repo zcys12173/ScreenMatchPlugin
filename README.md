@@ -74,3 +74,8 @@ createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXX
 ```
 
 后续会考虑直接把该逻辑放到插件中，增加开关配置
+
+## TODO
+
+* [ ] 支持px,dpi
+* [ ] 插件内支持CI
