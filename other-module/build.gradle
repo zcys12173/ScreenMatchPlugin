@@ -41,4 +41,6 @@ dependencies {
 screenMatch {
     baseValue = 375
     matchSizes = [320,360,375,384,392,400,410,411] //360,375,384,392,400,410,411
+//    onlyCurProject = false
+    prefix = "ws_"
 }

@@ -2,13 +2,14 @@ package com.syc.plugin.core.task
 
 import com.syc.plugin.LogUtil
 import com.syc.plugin.core.DimensFileIO
+import com.syc.plugin.core.ScreenMatchExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
 
-abstract class ScanXmlTask @Inject constructor(private val isOnlyCurProject: Boolean) : DefaultTask() {
+abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchExtension) : DefaultTask() {
 
     //匹配xml中的dp和sp 如：10dp 10sp
     private val regex = "\"[0-9]+\\.?[0-9]*(dp|sp)\""
@@ -23,8 +24,8 @@ abstract class ScanXmlTask @Inject constructor(private val isOnlyCurProject: Boo
 
     @TaskAction
     fun action() {
-        val scanProject = scan@{ project:Project ->
-            if(project.extensions.findByName("android") == null){
+        val scanProject = scan@{ project: Project ->
+            if (project.extensions.findByName("android") == null) {
                 LogUtil.log("${project.name}模块不是android模块，跳过扫描")
                 return@scan
             }
@@ -35,9 +36,9 @@ abstract class ScanXmlTask @Inject constructor(private val isOnlyCurProject: Boo
             }
             LogUtil.log("扫描${project.name}模块完成")
         }
-        if(isOnlyCurProject){
+        if (config.onlyCurProject) {
             scanProject(project)
-        }else{
+        } else {
             project.rootProject.subprojects.forEach {
                 scanProject(it)
             }
@@ -100,7 +101,7 @@ abstract class ScanXmlTask @Inject constructor(private val isOnlyCurProject: Boo
         val io = DimensFileIO()
         io.open(path)
         scanResults.forEach {
-            io.write(it.getName(),it.value+it.unit.value)
+            io.write(it.getName(), it.value + it.unit.value)
         }
         io.close()
     }
@@ -112,12 +113,12 @@ abstract class ScanXmlTask @Inject constructor(private val isOnlyCurProject: Boo
         return file.name.endsWith(".xml") && (file.path.contains("drawable") || file.path.contains("layout"))
     }
 
-    data class ScanResult(val value: String, val unit: DimensUnit) {
+    inner class ScanResult(val value: String, val unit: DimensUnit) {
         /**
          * 在dimens.xml中声明的name
          */
         fun getName(): String {
-            return "${unit.value}_${value.replace(".", "_")}"
+            return "${config.prefix}${unit.value}_${value.replace(".", "_")}"
         }
 
         /**

@@ -13,4 +13,11 @@
 
  <dimen name="dp_20_2">20.2dp</dimen> 
  <dimen name="dp_m_20_2">20.2dp</dimen>
+
+ <dimen name="dp_20">20dp</dimen> 
+
+ <dimen name="dp_33">33dp</dimen> 
+
+
+ <dimen name="ws_dp_34">34dp</dimen> 
 </resources>
