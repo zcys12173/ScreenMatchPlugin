@@ -21,7 +21,16 @@ allprojects {
         google()
         mavenCentral()
     }
+
+//    afterEvaluate{
+//        Task matchTask = project.tasks.findByName("scanAndCreateDimens")
+//        if(matchTask){
+//            Task preBuildTask = project.tasks.findByName("preBuild")
+//            preBuildTask?.dependsOn(matchTask)
+//        }
+//    }
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
