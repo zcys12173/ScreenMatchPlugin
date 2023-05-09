@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ <dimen name="dp_108">92.1600dp</dimen> 
+
+ <dimen name="dp_600">512.0000dp</dimen> 
+
+ <dimen name="dp_20_1">17.1520dp</dimen> 
+
+ <dimen name="dp_30">25.6000dp</dimen> 
+
+ <dimen name="sp_30">25.6000sp</dimen> 
+
+ <dimen name="dp_20_2">17.2373dp</dimen> 
+
+ <dimen name="dp_m_20_2">17.2373dp</dimen> 
+</resources>

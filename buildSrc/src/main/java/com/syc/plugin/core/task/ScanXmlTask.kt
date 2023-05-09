@@ -1,14 +1,14 @@
 package com.syc.plugin.core.task
 
 import com.syc.plugin.LogUtil
-import com.syc.plugin.core.createDimensFile
+import com.syc.plugin.core.DimensFileIO
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
 
-abstract class ScanTask @Inject constructor(private val isOnlyCurProject: Boolean) : DefaultTask() {
+abstract class ScanXmlTask @Inject constructor(private val isOnlyCurProject: Boolean) : DefaultTask() {
 
     //匹配xml中的dp和sp 如：10dp 10sp
     private val regex = "\"[0-9]+\\.?[0-9]*(dp|sp)\""
@@ -19,41 +19,48 @@ abstract class ScanTask @Inject constructor(private val isOnlyCurProject: Boolea
     init {
         group = "screenMatch"
         description = "scan res files and generate dimens.xml file"
-
     }
 
     @TaskAction
     fun action() {
-        val handle = { project:Project ->
-            LogUtil.log("开始处理${project.name}模块")
+        val scanProject = scan@{ project:Project ->
+            if(project.extensions.findByName("android") == null){
+                LogUtil.log("${project.name}模块不是android模块，跳过扫描")
+                return@scan
+            }
+            LogUtil.log("开始扫描${project.name}模块")
             val inputDir = "${project.projectDir}/src/main/res"
             File(inputDir).takeIf { it.exists() }?.run {
-                loopFiles(this)
-                if (scanResults.isNotEmpty()) {
-                    writeToDimensFile()
-                    scanResults.clear()
-                }
+                loopResFiles(this)
             }
+            LogUtil.log("扫描${project.name}模块完成")
         }
         if(isOnlyCurProject){
-            handle(project)
+            scanProject(project)
         }else{
             project.rootProject.subprojects.forEach {
-                handle(it)
+                scanProject(it)
             }
+        }
+
+        if (scanResults.isNotEmpty()) {
+            LogUtil.log("开始写入dimens.xml文件")
+            writeToDimensFile(project)
+            LogUtil.log("写入dimens.xml文件完成")
+            scanResults.clear()
         }
     }
 
 
-    private fun loopFiles(file: File) {
-        if (file.isDirectory) {
-            file.listFiles()?.forEach {
-                loopFiles(it)
+    private fun loopResFiles(resFile: File) {
+        if (resFile.isDirectory) {
+            resFile.listFiles()?.forEach {
+                loopResFiles(it)
             }
         } else {
-            if (isTargetFile(file)) {
-                println(file.absolutePath)
-                scanFileContent(file)
+            if (isTargetFile(resFile)) {
+                println(resFile.absolutePath)
+                scanFileContent(resFile)
             }
         }
     }
@@ -68,7 +75,7 @@ abstract class ScanTask @Inject constructor(private val isOnlyCurProject: Boolea
         var offset = 0
         matchResult.forEach {
             LogUtil.log("匹配到的内容：${it.value}")
-            val type = if (it.value.contains("dp")) DimensType.DP else DimensType.SP
+            val type = if (it.value.contains("dp")) DimensUnit.DP else DimensUnit.SP
             val value = it.value.substring(1, it.value.length - 3)
             val startIndex = it.range.first + 1 + offset //去掉引号
             val endIndex = it.range.last + offset //去掉引号
@@ -88,23 +95,14 @@ abstract class ScanTask @Inject constructor(private val isOnlyCurProject: Boolea
     /**
      * 把扫描到的dp 写入到dimens.xml中
      */
-    private fun writeToDimensFile() {
-
-        val dimensFile = File("${project.projectDir}/src/main/res/values/dimens.xml")
-        createDimensFile(dimensFile.path)
-        val content = dimensFile.readText()
-        val insetIndex = content.indexOf("</resources>")
-        val sb = StringBuilder(content)
+    private fun writeToDimensFile(project: Project) {
+        val path = "${project.projectDir}/src/main/res/values/dimens.xml"
+        val io = DimensFileIO()
+        io.open(path)
         scanResults.forEach {
-            if (!sb.contains("<dimen name=\"${it.getName()}\">")) {
-                sb.insert(
-                    insetIndex,
-                    "\n <dimen name=\"${it.getName()}\">${it.value.toFloat()}${it.type.value}</dimen> \n"
-                )
-            }
-
+            io.write(it.getName(),it.value+it.unit.value)
         }
-        dimensFile.writeText(sb.toString())
+        io.close()
     }
 
     /**
@@ -114,12 +112,12 @@ abstract class ScanTask @Inject constructor(private val isOnlyCurProject: Boolea
         return file.name.endsWith(".xml") && (file.path.contains("drawable") || file.path.contains("layout"))
     }
 
-    data class ScanResult(val value: String, val type: DimensType) {
+    data class ScanResult(val value: String, val unit: DimensUnit) {
         /**
          * 在dimens.xml中声明的name
          */
         fun getName(): String {
-            return "${type.value}_${value.replace(".", "_")}"
+            return "${unit.value}_${value.replace(".", "_")}"
         }
 
         /**
@@ -131,7 +129,7 @@ abstract class ScanTask @Inject constructor(private val isOnlyCurProject: Boolea
 
     }
 
-    enum class DimensType(val value: String) {
+    enum class DimensUnit(val value: String) {
         DP("dp"), SP("sp")
     }
 }
