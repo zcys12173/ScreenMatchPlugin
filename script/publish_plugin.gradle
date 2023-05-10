@@ -17,8 +17,8 @@ gradlePlugin {
         routerPlugin {
             id = 'io.github.zcys12173.ScreenMatch'
             implementationClass = 'com.syc.plugin.ScreenMatchPlugin'
-            displayName = 'Gradle plugin for auto match more size screen'
-            description = 'Gradle plugin for auto match more size screen'
+            displayName = 'Android Screen Adaptation Gradle Plugin'
+            description = 'Gradle plugin for screen adaptation in Android.'
         }
     }
 }
