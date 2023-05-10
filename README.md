@@ -1,5 +1,7 @@
 # Android Screen Adaptation Gradle Plugin 
 
+[中文](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/docs/README_CN.md)  
+
 Gradle plugin for screen adaptation in Android.  
 
 When coding XML, you only need to directly write values in dp/sp (currently only supports these two types) without manually defining them in dimens.xml, which improves coding efficiency.  
