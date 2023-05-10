@@ -1,5 +1,7 @@
 # Android屏幕适配Gradle插件  
 
+[English](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/README.md)
+
 用于Android屏幕适配的Gradle插件  
 
 在coding写xml的时候只需要直接写入dp/sp(目前仅支持这两种)值，无需手动在dimens.xml定义，提升编码效率  
