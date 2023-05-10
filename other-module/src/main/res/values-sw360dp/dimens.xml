@@ -5,19 +5,9 @@
 
  <dimen name="dp_600">576.0000dp</dimen> 
 
- <dimen name="dp_20_1">19.2960dp</dimen> 
-
- <dimen name="dp_30">28.8000dp</dimen> 
-
- <dimen name="sp_30">28.8000sp</dimen> 
-
- <dimen name="dp_20_2">19.3920dp</dimen> 
-
- <dimen name="dp_m_20_2">19.3920dp</dimen> 
-
  <dimen name="dp_20">19.2000dp</dimen> 
 
- <dimen name="dp_33">31.6800dp</dimen> 
+ <dimen name="sp_34">32.6400sp</dimen> 
 
- <dimen name="ws_dp_34">32.6400dp</dimen> 
+ <dimen name="sp_30_1">28.8960sp</dimen> 
 </resources>

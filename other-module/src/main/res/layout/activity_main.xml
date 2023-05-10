@@ -6,8 +6,8 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="@dimen/ws_dp_34"
-        android:layout_height="@dimen/sp_30"
+        android:layout_width="@dimen/sp_34"
+        android:layout_height="@dimen/sp_30_1"
         android:text="Hello World!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,20 +1,20 @@
-# Android屏幕适配Gradle插件  
+# Android Screen Adaptation Gradle Plugin 
 
-用于Android屏幕适配的Gradle插件  
+Gradle plugin for screen adaptation in Android.  
 
-在coding写xml的时候只需要直接写入dp/sp(目前仅支持这两种)值，无需手动在dimens.xml定义，提升编码效率  
+When coding XML, you only need to directly write values in dp/sp (currently only supports these two types) without manually defining them in dimens.xml, which improves coding efficiency.  
 
-该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，然后再基于Andorid最小宽度适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
+This plugin scans XML files in the (layout/layout_xxx/drawable/drawable_xxx) directories and replaces them with the "@dimens/dp_xx" format. It inserts the scanned dimen values into dimens.xml and generates adaptation files based on the Android minimum width principle (e.g., values-swXXXdp/dimens.xml).  
 
-## 引用
-审核中...
+## Dependency
+In review...  
 
-## 配置
-建议在整个工程的最底层依赖的module引入插件生成适配dimens.xml文件，这样方便其他的module引用  
+## Usage
+It is recommended to include the plugin for generating adaptation dimens.xml files in the bottom-level module that is depended upon by the entire project. This makes it easier for other modules to reference.  
 
-下面代码示例都用“other-module”模块
+Here's an example code for the "other-module" module:  
 
-other-module.gradle
+other-module.gradle  
 ```gradle
 
     apply plugin: 'screen_match'
@@ -25,39 +25,40 @@ other-module.gradle
     }
 
 ```
-可配置参数
+Available configuration options:  
+
 ```gradle
     abstract class ScreenMatchExtension {
-        var baseValue: Int? = null //基准值，一般使用UI设计稿上的宽度dp
-        var matchSizes: Array<Int>? = null //要适配的尺寸dp
-        var prefix: String = ""  //生成dimen的name的前缀,例:"{prefix}{dp/sp}_100 ",如果未设置，则默认未"{dp/sp}_100"
-        var onlyCurProject:Boolean = false //是否只对当前module进行适配
+        var baseValue: Int? = null // The base value, usually the width in dp from the UI design
+        var matchSizes: Array<Int>? = null // Sizes in dp to be adapted
+        var prefix: String = ""  // Prefix for the generated dimen name, e.g., "{prefix}{dp/sp}_100". If not set, the default is "{dp/sp}_100"
+        var onlyCurProject:Boolean = false // Whether to adapt only the current module
     }
 ```
-## 使用
-1.命令行  
+## Run task
+1.Command Line  
 ```shell
-    ./gradlew other-module:scanAndCreateDimens
+    ./gradlew other-module:scanAndCreateDimens  
 ```
 
-2.可视化  
+2.Visual   
   
 ![Image text](https://raw.githubusercontent.com/zcys12173/ScreenMatchPlugin/main/images/task_position.png)  
 
-3.Task说明  
+3.Task Explanation  
 
-scanAndCreateDimens:扫描+生成适配后的文件  
+scanAndCreateDimens: Scans and generates adapted files.  
 
-scanXmlFiles.      :扫描xml+生成基准的dimens.xml  
+scanXmlFiles: Scans XML files and generates the base dimens.xml.  
 
-createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXXXdp/dimens.xml文件  
+createMatchFiles: Generates values-swXXXdp/dimens.xml files based on the base dimens.xml.  
 
-建议直接使用scanAndCreateDimens任务。也可以先执行scanXmlFiles任务，然后在执行createMatchFiles任务  
+It is recommended to directly use the scanAndCreateDimens task. You can also execute the scanXmlFiles task first, and then the createMatchFiles task.   
 
 
-## 自动集成-CI  
+## Automatic Integration - CI 
 
-在根目录下的build.gradle中添加  
+Add the following code to the build.gradle file in the root directory:  
 
 ```gradle
     allprojects {
@@ -72,10 +73,3 @@ createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXX
         }
     }
 ```
-
-后续会考虑直接把该逻辑放到插件中，增加开关配置
-
-## TODO
-
-* [ ] 支持px,dpi
-* [ ] 插件内支持CI
