@@ -35,6 +35,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
 //apply plugin: 'io.github.zcys12173.ScreenMatch'
@@ -46,4 +49,5 @@ screenMatch {
 //    onlyCurProject = false //是否只对当前module进行适配，建议false
 //    prefix = "ws_" //生成dimen的name的前缀,例:"{prefix}{dp/sp}_100 ",如果未设置，则默认为"{dp/sp}_100"
     autoRunWithPacking = true
+    excludes = ['**/app/**/drawable**/**']
 }

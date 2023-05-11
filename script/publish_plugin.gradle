@@ -8,7 +8,7 @@ pluginBundle {
     tags = ['screen', 'match']
 }
 
-version = '1.0.0-beta'
+version = '1.0.0'
 group = 'io.github.zcys12173.plugins'
 
 

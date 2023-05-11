@@ -7,6 +7,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 import java.io.File
+import java.nio.file.FileSystems
 import javax.inject.Inject
 
 abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchExtension) : DefaultTask() {
@@ -59,7 +60,7 @@ abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchEx
                 loopResFiles(it)
             }
         } else {
-            if (isTargetFile(resFile)) {
+            if (filterFiles(resFile)) {
                 println(resFile.absolutePath)
                 scanFileContent(resFile)
             }
@@ -112,8 +113,24 @@ abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchEx
     /**
      * 过滤文件，drawable和layout目录下的xml文件
      */
-    private fun isTargetFile(file: File): Boolean {
-        return file.name.endsWith(".xml") && (file.path.contains("drawable") || file.path.contains("layout"))
+    private fun filterFiles(file: File): Boolean {
+        return isValidXMl(file) && !isExclude(file)
+    }
+
+    /**
+     * 是否为有效的xml文件
+     */
+    private fun isValidXMl(file:File) = file.name.endsWith(".xml") && (file.path.contains("drawable") || file.path.contains("layout"))
+
+    /**
+     * 是否应该被排除
+     */
+    private fun isExclude(file: File):Boolean{
+        return config.excludes.any {
+            val matcher = FileSystems.getDefault().getPathMatcher("glob:$it")
+            matcher.matches(file.toPath())
+        }
+
     }
 
     private fun ignoreContent(content: String): Boolean {
