@@ -12,11 +12,19 @@ class ScreenMatchPlugin : Plugin<Project> {
         val config = project.extensions.create("screenMatch", ScreenMatchExtension::class.java)
         val scanTask = project.tasks.create("scanXmlFiles", ScanXmlTask::class.java,config)
         val createTask = project.tasks.create("createMatchFiles", CreateMatchDimensTask::class.java,config)
-        project.tasks.create("scanAndCreateDimens").apply {
+        val scanAndCreate = project.tasks.create("scanAndCreateDimens").apply {
             group = "screenMatch"
             description = "scan xml file and create matched dimens.xml"
             createTask.shouldRunAfter(scanTask)
             dependsOn(scanTask,createTask)
+        }
+        project.afterEvaluate{
+            if(config.autoRunWithPacking){
+                project.tasks.findByName(config.taskName)?.run {
+                    LogUtil.log("开启打包自动生成适配文件")
+                    dependsOn(scanAndCreate)
+                }
+            }
         }
     }
 }

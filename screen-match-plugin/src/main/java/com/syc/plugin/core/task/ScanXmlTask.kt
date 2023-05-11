@@ -72,6 +72,9 @@ abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchEx
     private fun scanFileContent(file: File) {
         LogUtil.log("开始检测 ${file.absolutePath} 文件")
         var content = file.readText()
+        if(ignoreContent(content)){
+            return
+        }
         val matchResult = regex.toRegex().findAll(content)
         var offset = 0
         matchResult.forEach {
@@ -111,6 +114,10 @@ abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchEx
      */
     private fun isTargetFile(file: File): Boolean {
         return file.name.endsWith(".xml") && (file.path.contains("drawable") || file.path.contains("layout"))
+    }
+
+    private fun ignoreContent(content: String): Boolean {
+        return content.trim().endsWith("</vector>")//忽略矢量图xml文件
     }
 
     inner class ScanResult(val value: String, val unit: DimensUnit) {

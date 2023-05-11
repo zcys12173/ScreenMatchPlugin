@@ -7,7 +7,7 @@
 
     <TextView
         android:layout_width="@dimen/dp_600"
-        android:layout_height="@dimen/dp_20"
+        android:layout_height="@dimen/dp_300"
         android:text="Hello World!"
         android:background="#631E1E"
         app:layout_constraintBottom_toBottomOf="parent"

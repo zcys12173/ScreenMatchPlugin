@@ -2,7 +2,7 @@ apply plugin: 'org.jetbrains.kotlin.jvm'
 apply from: '../script/publish_plugin.gradle'
 
 dependencies {
-    implementation "com.android.tools.build:gradle:4.2.1"
+    compileOnly "com.android.tools.build:gradle:4.2.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation gradleApi()
 }

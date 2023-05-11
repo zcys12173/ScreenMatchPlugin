@@ -10,4 +10,6 @@
  <dimen name="sp_34">34sp</dimen> 
 
  <dimen name="sp_30_1">30.1sp</dimen> 
+
+ <dimen name="dp_300">300dp</dimen> 
 </resources>
