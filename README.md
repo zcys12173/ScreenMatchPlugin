@@ -1,6 +1,6 @@
 # Android Screen Adaptation Gradle Plugin 
 
-[English](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/README.md)｜
+[English]｜
 [中文](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/docs/README_CN.md)  
 
 Gradle plugin for screen adaptation in Android.  
