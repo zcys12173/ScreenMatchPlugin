@@ -1,6 +1,6 @@
 # Android屏幕适配Gradle插件  
 
-[中文](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/docs/README_CN.md)｜[English](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/README.md)
+中文｜[English](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/README.md)
 
 用于Android屏幕适配的Gradle插件  
 
