@@ -19,7 +19,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.0"
+    classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.1"
   }
 }
 ```
@@ -31,7 +31,7 @@ Here's an example code for the "other-module" module:
 other-module.gradle  
 ```gradle
 
-apply plugin: 'screen_match'
+apply plugin: 'io.github.zcys12173.ScreenMatch'
 
 screenMatch {
     baseValue = 375
@@ -43,11 +43,17 @@ Available configuration options:
 
 ```gradle
 abstract class ScreenMatchExtension {
-    var baseValue: Int? = null // The base value, usually the width in dp from the UI design
+    var baseValue: Int? = null // Base value, usually the width in dp from the UI design draft
     var matchSizes: Array<Int>? = null // Sizes in dp to be adapted
-    var prefix: String = ""  // Prefix for the generated dimen name, e.g., "{prefix}{dp/sp}_100". If not set, the default is "{dp/sp}_100"
-    var onlyCurProject:Boolean = false // Whether to adapt only the current module
+    var prefix: String = ""  // Prefix for generating the name of dimen, e.g., "<dimen name="{prefix}{dp/sp}_11">11dp</dimen> ". If not set, the default is "{dp/sp}_11"
+    var onlyCurProject: Boolean = false // Whether to adapt only the current module
+    var matchType: String? = "SW" // Type of the generated dimens.xml folder, supports SW (smallest width), W (window width), H (window height)
+    var autoRunWithPacking: Boolean = false // Automatically run during apk packaging
+    var taskName: String = "preBuild" // The adaptation task will run before this task. Only effective when [autoRunWithPacking] is true. Default: preBuild
+    var excludes: Array<String> = arrayOf() // Excluded scanning folders or files. The plugin defaults to scanning all subprojects under the project
+    var logEnabled: Boolean = false // Whether to print logs
 }
+
 ```
 ## Run task
 1.Command Line  
@@ -70,20 +76,3 @@ createMatchFiles: Generates values-swXXXdp/dimens.xml files based on the base di
 It is recommended to directly use the scanAndCreateDimens task. You can also execute the scanXmlFiles task first, and then the createMatchFiles task.   
 
 
-## Automatic Integration - CI 
-
-Add the following code to the build.gradle file in the root directory:  
-
-```gradle
-allprojects {
-    ...
-
-    afterEvaluate{
-        Task matchTask = project.tasks.findByName("scanAndCreateDimens")
-        if(matchTask){
-            Task preBuildTask = project.tasks.findByName("preBuild")
-            preBuildTask?.dependsOn(matchTask)
-        }
-    }
-}
-```
