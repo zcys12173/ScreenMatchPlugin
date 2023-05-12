@@ -8,5 +8,6 @@ abstract class ScreenMatchExtension {
     var matchType: String? = "SW" //暂时仅支持"SW"(最少宽度)，后续会支持"W，H"
     var autoRunWithPacking:Boolean = false //打包apk时自动运行
     var taskName:String = "preBuild" // 适配Task 会运行在该任务之前。[autoRunWithPacking]为true的时候生效
-    var excludes:Array<String> = arrayOf()
+    var excludes:Array<String> = arrayOf() //扫描xml的时候排除的文件夹
+    var logEnabled:Boolean = false //是否打印日志
 }

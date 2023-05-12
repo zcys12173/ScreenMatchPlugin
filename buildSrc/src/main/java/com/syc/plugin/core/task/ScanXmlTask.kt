@@ -61,7 +61,6 @@ abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchEx
             }
         } else {
             if (filterFiles(resFile)) {
-                println(resFile.absolutePath)
                 scanFileContent(resFile)
             }
         }

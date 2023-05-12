@@ -8,7 +8,6 @@ import org.gradle.api.Project
 
 class ScreenMatchPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        LogUtil.log("ScreenMatchPlugin apply")
         val config = project.extensions.create("screenMatch", ScreenMatchExtension::class.java)
         val scanTask = project.tasks.create("scanXmlFiles", ScanXmlTask::class.java,config)
         val createTask = project.tasks.create("createMatchFiles", CreateMatchDimensTask::class.java,config)
@@ -19,6 +18,7 @@ class ScreenMatchPlugin : Plugin<Project> {
             dependsOn(scanTask,createTask)
         }
         project.afterEvaluate{
+            LogUtil.logEnabled = config.logEnabled
             if(config.autoRunWithPacking){
                 project.tasks.findByName(config.taskName)?.run {
                     LogUtil.log("开启打包自动生成适配文件")

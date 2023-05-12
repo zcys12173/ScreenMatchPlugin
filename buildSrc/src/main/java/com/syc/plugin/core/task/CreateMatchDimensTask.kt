@@ -1,5 +1,6 @@
 package com.syc.plugin.core.task
 
+import com.syc.plugin.LogUtil
 import com.syc.plugin.core.DimensFileIO
 import com.syc.plugin.core.ScreenMatchExtension
 import org.gradle.api.DefaultTask
@@ -39,6 +40,7 @@ abstract class CreateMatchDimensTask @Inject constructor(private val config: Scr
                 }
             }
             dimenIO.close()
+            LogUtil.log("生成文件:$dimensPath")
         }
     }
 }

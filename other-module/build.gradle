@@ -40,8 +40,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
-//apply plugin: 'io.github.zcys12173.ScreenMatch'
-apply plugin: 'screen_match'
+apply plugin: 'io.github.zcys12173.ScreenMatch'
+//apply plugin: 'screen_match'
 
 screenMatch {
     baseValue = 753  //基准值，一般使用UI设计稿上的宽度dp

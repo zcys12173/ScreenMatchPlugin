@@ -8,7 +8,7 @@ pluginBundle {
     tags = ['screen', 'match']
 }
 
-version = '1.0.0'
+version = '1.0.1'
 group = 'io.github.zcys12173.plugins'
 
 
@@ -22,3 +22,20 @@ gradlePlugin {
         }
     }
 }
+
+task prePublishTask(type:Copy) {
+    from '../buildSrc/src/main/java'
+    into '../screen-match-plugin/src/main/java'
+    doFirst {
+        File file = new File("${project.rootDir}/screen-match-plugin/src/main/java")
+        if(file.exists()) {
+            file.delete()
+        }
+    }
+}
+
+afterEvaluate {
+    project.tasks.getByName('compileKotlin').dependsOn prePublishTask
+}
+
+
