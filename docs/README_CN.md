@@ -19,7 +19,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.0"
+    classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.1"
   }
 }
 ```
@@ -52,6 +52,7 @@ abstract class ScreenMatchExtension {
     var autoRunWithPacking:Boolean = false //打包apk时自动运行
     var taskName:String = "preBuild" // 适配Task 会运行在该任务之前。[autoRunWithPacking]为true的时候生效。默认preBuld
     var excludes:Array<String> = arrayOf() //排除的扫描文件夹或者文件。插件默认是扫描该工程下的所有的子工程
+    var logEnabled:Boolean = false //是否打印日志
 }
 ```  
 
@@ -84,4 +85,4 @@ createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXX
 ## TODO
 
 * [ ] 支持px,dpi
-* [ ] 增加日志开关
+* [x] 增加日志开关
