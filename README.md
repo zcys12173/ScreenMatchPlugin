@@ -6,7 +6,9 @@
 
 在coding写xml的时候只需要直接写入dp/sp(目前仅支持这两种)值，无需手动在dimens.xml定义，提升编码效率
 
-该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，然后再基于适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
+该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，  
+
+然后再基于适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
 
 ## 引用
 根目录build.gradle
