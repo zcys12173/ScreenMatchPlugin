@@ -1,16 +1,16 @@
-# Android Screen Adaptation Gradle Plugin 
+# Android屏幕适配Gradle插件
 
-English｜
-[中文](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/docs/README_CN.md)  
+中文｜[English](https://github.com/zcys12173/ScreenMatchPlugin/blob/main/README.md)
 
-Gradle plugin for screen adaptation in Android.  
+用于Android屏幕适配的Gradle插件
 
-When coding XML, you only need to directly write values in dp/sp (currently only supports these two types) without manually defining them in dimens.xml, which improves coding efficiency.  
+在coding写xml的时候只需要直接写入dp/sp(目前仅支持这两种)值，无需手动在dimens.xml定义，提升编码效率
 
-This plugin scans XML files in the (layout/layout_xxx/drawable/drawable_xxx) directories and replaces them with the "@dimens/dp_xx" format. It inserts the scanned dimen values into dimens.xml and generates adaptation files based on the Android minimum width principle (e.g., values-swXXXdp/dimens.xml).  
+该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，然后再基于适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
 
-## Dependency
-root/build.gradle
+## 引用
+根目录build.gradle
+
 ```gradle
 buildscript {
   repositories {
@@ -23,56 +23,66 @@ buildscript {
   }
 }
 ```
-## Usage
-It is recommended to include the plugin for generating adaptation dimens.xml files in the bottom-level module that is depended upon by the entire project. This makes it easier for other modules to reference.  
 
-Here's an example code for the "other-module" module:  
+## 配置
+建议在整个工程的最底层依赖的module引入插件生成适配dimens.xml文件，这样方便其他的module引用
 
-other-module.gradle  
+下面代码示例都用“other-module”模块
+
+other-module.gradle
 ```gradle
-
 apply plugin: 'io.github.zcys12173.ScreenMatch'
 
 screenMatch {
-    baseValue = 375
-    matchSizes = [320,360,375,384,392,400,410,411]
+    baseValue = 360  //基准值，一般使用UI设计稿上的宽度dp
+    matchSizes = [240,320,360,375,384,392,400,410,411,432,480,533,592,600,640,662,720,768,800,811,820,960,961,1024,1024,1280,1365] //要适配的尺寸dp
+    autoRunWithPacking = true
+    excludes = ['**/flutter/**','**/python-**/**','**/spark-**/**','**/video_player_android/**','**/webview_flutter_android/**']
 }
+```  
 
-```
-Available configuration options:  
-
+配置参数说明
 ```gradle
 abstract class ScreenMatchExtension {
-    var baseValue: Int? = null // Base value, usually the width in dp from the UI design draft
-    var matchSizes: Array<Int>? = null // Sizes in dp to be adapted
-    var prefix: String = ""  // Prefix for generating the name of dimen, e.g., "<dimen name="{prefix}{dp/sp}_11">11dp</dimen> ". If not set, the default is "{dp/sp}_11"
-    var onlyCurProject: Boolean = false // Whether to adapt only the current module
-    var matchType: String? = "SW" // Type of the generated dimens.xml folder, supports SW (smallest width), W (window width), H (window height)
-    var autoRunWithPacking: Boolean = false // Automatically run during apk packaging
-    var taskName: String = "preBuild" // The adaptation task will run before this task. Only effective when [autoRunWithPacking] is true. Default: preBuild
-    var excludes: Array<String> = arrayOf() // Excluded scanning folders or files. The plugin defaults to scanning all subprojects under the project
-    var logEnabled: Boolean = false // Whether to print logs
+    var baseValue: Int? = null //基准值，一般使用UI设计稿上的宽度dp
+    var matchSizes: Array<Int>? = null //要适配的尺寸dp
+    var prefix: String = ""  //生成dimen的name的前缀,例:"<dimen name="{prefix}{dp/sp}_11">11dp</dimen> ",如果未设置，则默认未"{dp/sp}_11"
+    var onlyCurProject:Boolean = false //是否只对当前module进行适配
+    var matchType: String? = "SW" //生成适配dimens.xml文件夹类型，支持 SW（屏幕最小宽度）、W（窗口宽度）、H（窗口高度）
+    var autoRunWithPacking:Boolean = false //打包apk时自动运行
+    var taskName:String = "preBuild" // 适配Task 会运行在该任务之前。[autoRunWithPacking]为true的时候生效。默认preBuld
+    var excludes:Array<String> = arrayOf() //排除的扫描文件夹或者文件。插件默认是扫描该工程下的所有的子工程
+    var logEnabled:Boolean = false //是否打印日志
 }
+```  
 
-```
-## Run task
-1.Command Line  
+## 使用
+
+1.命令行
+
 ```shell
-./gradlew other-module:scanAndCreateDimens  
+./gradlew other-module:scanAndCreateDimens
 ```
 
-2.Visual   
-  
-![Image text](https://raw.githubusercontent.com/zcys12173/ScreenMatchPlugin/main/images/task_position.png)  
+2.可视化
 
-3.Task Explanation  
+![Image text](https://raw.githubusercontent.com/zcys12173/ScreenMatchPlugin/main/images/task_position.png)
 
-scanAndCreateDimens: Scans and generates adapted files.  
+3.Task说明
 
-scanXmlFiles: Scans XML files and generates the base dimens.xml.  
+scanAndCreateDimens:扫描+生成适配后的文件
 
-createMatchFiles: Generates values-swXXXdp/dimens.xml files based on the base dimens.xml.  
+scanXmlFiles.      :扫描xml+生成基准的dimens.xml
 
-It is recommended to directly use the scanAndCreateDimens task. You can also execute the scanXmlFiles task first, and then the createMatchFiles task.   
+createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXXXdp/dimens.xml文件
+
+建议直接使用scanAndCreateDimens任务。也可以先执行scanXmlFiles任务，然后在执行createMatchFiles任务
 
 
+## 自动集成-CI
+目前已经支持通过配置autoRunWithPacking来控制打包自动运行
+
+## TODO
+
+* [ ] 支持px,dpi
+* [x] 增加日志开关
