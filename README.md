@@ -4,14 +4,15 @@
 
 用于Android屏幕适配的Gradle插件
 
-在coding写xml的时候只需要直接写入dp/sp(目前仅支持这两种)值，无需手动在dimens.xml定义，提升编码效率
+在coding写`xml`的时候只需要直接写入`dp/sp`(目前仅支持这两种)值，无需手动在`dimens.xml`定义，提升编码效率
 
-该插件会扫描(layout/layout_xxx/drawable/drawable_xxx)目录下的xml文件，替换成“@dimens/dp_xx”方式，在dimens.xml中插入扫描到的dimen值，  
+该插件会扫描`(layout/layout_xxx/drawable/drawable_xxx)`目录下的xml文件，替换成`@dimens/dp_xx`方式，在`dimens.xml`中插入扫描到的`dimen`值，  
 
-然后再基于适配原则生成适配文件(如 values-swXXXdp/dimens.xml)
+然后再基于适配原则生成适配文件(如 `values-swXXXdp/dimens.xml`)
 
-## 引用
-根目录build.gradle
+### 引用  
+
+根目录`build.gradle`
 
 ```gradle
 buildscript {
@@ -24,14 +25,18 @@ buildscript {
     classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.1"
   }
 }
-```
+```  
+  
+  
+  
 
-## 配置
-建议在整个工程的最底层依赖的module引入插件生成适配dimens.xml文件，这样方便其他的module引用
+### 配置  
 
-下面代码示例都用“other-module”模块
+建议在整个工程的最底层依赖的module引入插件生成适配`dimens.xml`文件，这样方便其他的module引用
 
-other-module.gradle
+下面代码示例都用`other-module`模块
+
+* `other-module/build.gradle`  
 ```gradle
 apply plugin: 'io.github.zcys12173.ScreenMatch'
 
@@ -43,7 +48,7 @@ screenMatch {
 }
 ```  
 
-配置参数说明
+* 配置参数说明
 ```gradle
 abstract class ScreenMatchExtension {
     var baseValue: Int? = null //基准值，一般使用UI设计稿上的宽度dp
@@ -60,29 +65,29 @@ abstract class ScreenMatchExtension {
 
 ## 使用
 
-1.命令行
+1. 命令行
 
 ```shell
 ./gradlew other-module:scanAndCreateDimens
 ```
 
-2.可视化
+2. 可视化
 
 ![Image text](https://raw.githubusercontent.com/zcys12173/ScreenMatchPlugin/main/images/task_position.png)
 
-3.Task说明
+3. Task说明
 
-scanAndCreateDimens:扫描+生成适配后的文件
+`scanAndCreateDimens`:扫描+生成适配后的文件
 
-scanXmlFiles.      :扫描xml+生成基准的dimens.xml
+`scanXmlFiles`      :扫描xml+生成基准的dimens.xml
 
-createMatchFiles   :根据基准的dimens.xml生成各种尺寸下的values-swXXXdp/dimens.xml文件
+`createMatchFiles`  :根据基准的dimens.xml生成各种尺寸下的values-swXXXdp/dimens.xml文件
 
-建议直接使用scanAndCreateDimens任务。也可以先执行scanXmlFiles任务，然后在执行createMatchFiles任务
+建议直接使用`scanAndCreateDimens`任务。也可以先执行`scanXmlFiles`任务，然后在执行`createMatchFiles`任务
 
 
 ## 自动集成-CI
-目前已经支持通过配置autoRunWithPacking来控制打包自动运行
+目前已经支持通过配置`autoRunWithPacking`来控制打包自动运行
 
 ## TODO
 
