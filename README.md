@@ -22,7 +22,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.1"
+    classpath "io.github.zcys12173.plugins:screen-match-plugin:1.0.2"
   }
 }
 ```  
@@ -60,6 +60,7 @@ abstract class ScreenMatchExtension {
     var taskName:String = "preBuild" // 适配Task 会运行在该任务之前。[autoRunWithPacking]为true的时候生效。默认preBuld
     var excludes:Array<String> = arrayOf() //排除的扫描文件夹或者文件。插件默认是扫描该工程下的所有的子工程
     var logEnabled:Boolean = false //是否打印日志
+    var useCache:Boolean = true // 是否开启缓存，true：会根据文件是否修改来决定是否重新生成适配文件，false：每次都会重新生成适配文件
 }
 ```  
 
