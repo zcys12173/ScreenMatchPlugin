@@ -3,6 +3,7 @@ package com.syc.plugin.core.task
 import com.syc.plugin.LogUtil
 import com.syc.plugin.core.DimensFileIO
 import com.syc.plugin.core.ScreenMatchExtension
+import com.syc.plugin.core.cache.runWhenModified
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
@@ -61,7 +62,14 @@ abstract class ScanXmlTask @Inject constructor(private val config: ScreenMatchEx
             }
         } else {
             if (filterFiles(resFile)) {
-                scanFileContent(resFile)
+                if(config.useCache){
+                    resFile.runWhenModified {
+                        scanFileContent(resFile)
+                    }
+                }else{
+                    scanFileContent(resFile)
+                }
+
             }
         }
     }

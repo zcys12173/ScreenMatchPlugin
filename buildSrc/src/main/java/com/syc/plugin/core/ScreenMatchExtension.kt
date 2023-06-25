@@ -10,4 +10,5 @@ abstract class ScreenMatchExtension {
     var taskName:String = "preBuild" // 适配Task 会运行在该任务之前。[autoRunWithPacking]为true的时候生效
     var excludes:Array<String> = arrayOf() //扫描xml的时候排除的文件夹
     var logEnabled:Boolean = false //是否打印日志
+    var useCache:Boolean = true // 是否开启缓存，true：会根据文件是否修改来决定是否重新生成适配文件，false：每次都会重新生成适配文件
 }

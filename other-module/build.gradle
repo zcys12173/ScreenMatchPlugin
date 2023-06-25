@@ -40,8 +40,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
-apply plugin: 'io.github.zcys12173.ScreenMatch'
-//apply plugin: 'screen_match'
+//apply plugin: 'io.github.zcys12173.ScreenMatch'
+apply plugin: 'screen_match'
 
 screenMatch {
     baseValue = 753  //基准值，一般使用UI设计稿上的宽度dp
@@ -49,5 +49,6 @@ screenMatch {
 //    onlyCurProject = false //是否只对当前module进行适配，建议false
 //    prefix = "ws_" //生成dimen的name的前缀,例:"{prefix}{dp/sp}_100 ",如果未设置，则默认为"{dp/sp}_100"
     autoRunWithPacking = true
+    logEnabled = true
     excludes = ['**/app/**/drawable**/**']
 }
